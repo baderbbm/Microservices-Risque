@@ -1,6 +1,5 @@
 package com.microservices.dto;
 
-
 import java.sql.Date;
 
 public class PatientDTO {
