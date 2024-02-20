@@ -8,7 +8,6 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.regex.*;
 
-
 @Service
 public class DiabetesRiskCalculationService {
 
