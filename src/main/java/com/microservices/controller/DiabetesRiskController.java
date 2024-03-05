@@ -26,7 +26,7 @@ public class DiabetesRiskController {
 		// Récupérer les détails du patient
 		RestTemplate restTemplate = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
-		headers.setBasicAuth("pra", "pra");
+		headers.setBasicAuth("diabete", "diabete");
 		HttpEntity<String> entity = new HttpEntity<>(headers);
 
 		// Récupérer les détails du patient depuis le microservice via la gateway
