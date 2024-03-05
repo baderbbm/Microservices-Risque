@@ -6,7 +6,8 @@ import org.springframework.stereotype.Service;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.regex.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class DiabetesRiskCalculationService {
@@ -38,7 +39,7 @@ public class DiabetesRiskCalculationService {
 	private int countTriggers(MedecinNoteDTO[] medecinNotes) {
 		int count = 0;
 		// Modèle de regex pour correspondre aux déclencheurs
-		String regex = "(Hémoglobine A1C|Microalbumine|Taille|Poids|fumeur|Fumeur|Fumeuse|Anormal|anormal|cholestérol|Cholestérol|Vertiges|Rechute|R[ée]action|r[ée]action|Anticorps|anticorps)";
+		String regex = "(Hémoglobine A1C|Microalbumine|Taille|Poids|fumeur|Fumeur|Fumeuse|Anormal|anormal|cholestérol|Cholestérol|Vertiges|Rechute|Réaction|réaction|Anticorps|anticorps)";
 
 		// Création du pattern pour la recherche
 		// Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
@@ -47,19 +48,15 @@ public class DiabetesRiskCalculationService {
 		// Parcours de chaque note
 		for (MedecinNoteDTO note : medecinNotes) {
 			String noteContent = note.getNote();
-			System.out.println("note :" + noteContent);
-
 			// Recherche des déclencheurs dans le contenu de la note
 			Matcher matcher = pattern.matcher(noteContent);
 			while (matcher.find()) {
 				// Si un déclencheur est trouvé, incrémenter le compteur et imprimer le
 				// déclencheur trouvé
 				count++;
-				System.out.println("Déclencheur trouvé : " + matcher.group());
 			}
 		}
 
-		System.out.println("count " + count);
 		return count;
 	}
 
