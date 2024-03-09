@@ -15,36 +15,41 @@ import org.springframework.web.client.RestTemplate;
 
 @RestController
 public class DiabetesRiskController {
-	private final String urlMicroserviceGateway = "http://localhost:8081";
-
-	@Autowired
-	private DiabetesRiskCalculationService diabetesRiskCalculationService;
-
-	@GetMapping("/diabetes-risk/patients/{patientId}")
-	public ResponseEntity<String> getDiabetesRisk(@PathVariable Long patientId) {
-
-		// Récupérer les détails du patient
-		RestTemplate restTemplate = new RestTemplate();
-		HttpHeaders headers = new HttpHeaders();
-		headers.setBasicAuth("diabete", "diabete");
-		HttpEntity<String> entity = new HttpEntity<>(headers);
-
-		// Récupérer les détails du patient depuis le microservice via la gateway
-		ResponseEntity<PatientDTO> patientResponse = restTemplate
-				.exchange(urlMicroserviceGateway + "/patients/" + patientId, HttpMethod.GET, entity, PatientDTO.class);
-
-		// Récupérer les notes du médecin associées au patient
-
-		ResponseEntity<MedecinNoteDTO[]> notesResponse = restTemplate.exchange(
-				urlMicroserviceGateway + "/medecin/notes/" + patientId, HttpMethod.GET, entity, MedecinNoteDTO[].class);
-
-		MedecinNoteDTO[] medecinNotes = notesResponse.getBody();
-
-		// Calculer le risque de diabète en utilisant le service de calcul du risque de
-		// diabète
-		String riskLevel = diabetesRiskCalculationService.calculateDiabetesRisk(patientResponse.getBody(),
-				medecinNotes);
-
-		return ResponseEntity.ok(riskLevel);
-	}
+    private final String urlMicroserviceGateway = "http://localhost:8081";
+    // private final String urlMicroserviceGateway = "http://192.168.1.6:8084";
+    
+    @Autowired
+    private DiabetesRiskCalculationService diabetesRiskCalculationService;
+    
+    private HttpEntity<String> createHttpEntityWithAuth() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBasicAuth("diabete", "diabete");
+        return new HttpEntity<>(headers);
+    }
+    
+    private RestTemplate createRestTemplate() {
+        return new RestTemplate();
+    }
+    
+    @GetMapping("/diabetes-risk/patients/{patientId}")
+    public ResponseEntity<String> getDiabetesRisk(@PathVariable Long patientId) {
+        // Récupérer les détails du patient
+        RestTemplate restTemplate = createRestTemplate();
+        HttpEntity<String> entity = createHttpEntityWithAuth();
+    
+        // Récupérer les détails du patient depuis le microservice via la gateway
+        ResponseEntity<PatientDTO> patientResponse = restTemplate
+                .exchange(urlMicroserviceGateway + "/patients/" + patientId, HttpMethod.GET, entity, PatientDTO.class);
+    
+        // Récupérer les notes du médecin associées au patient
+        ResponseEntity<MedecinNoteDTO[]> notesResponse = restTemplate.exchange(
+                urlMicroserviceGateway + "/medecin/notes/" + patientId, HttpMethod.GET, entity, MedecinNoteDTO[].class);
+    
+        MedecinNoteDTO[] medecinNotes = notesResponse.getBody();
+    
+        // Calculer le risque de diabète en utilisant le service de calcul du risque de diabète
+        String riskLevel = diabetesRiskCalculationService.calculateDiabetesRisk(patientResponse.getBody(), medecinNotes);
+    
+        return ResponseEntity.ok(riskLevel);
+    }
 }
