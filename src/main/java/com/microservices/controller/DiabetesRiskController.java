@@ -15,8 +15,8 @@ import org.springframework.web.client.RestTemplate;
 
 @RestController
 public class DiabetesRiskController {
-    private final String urlMicroserviceGateway = "http://localhost:8081";
-    // private final String urlMicroserviceGateway = "http://192.168.1.6:8084";
+   // private final String urlMicroserviceGateway = "http://localhost:8081";
+     private final String urlMicroserviceGateway = "http://192.168.1.3:8081";
     
     @Autowired
     private DiabetesRiskCalculationService diabetesRiskCalculationService;
