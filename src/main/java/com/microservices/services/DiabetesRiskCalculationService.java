@@ -19,14 +19,14 @@ public class DiabetesRiskCalculationService {
 		// Compter le nombre de déclencheurs présents dans les notes médicales
 		int triggerCount = countTriggers(medecinNotes);
 
-		if (triggerCount <= 1) {
-			return "None";
+		if (isEarlyOnset(age, gender, triggerCount)) {
+			return "Early Onset";
 		} else if (triggerCount >= 2 && triggerCount <= 5 && age > 30) {
 			return "Borderline";
 		} else if (isInDanger(age, gender, triggerCount)) {
 			return "In Danger";
 		} else {
-			return "Early Onset";
+			return "None";
 		}
 	}
 
@@ -75,5 +75,22 @@ public class DiabetesRiskCalculationService {
 			}
 		}
 		return false;
+	}
+	
+	private boolean isEarlyOnset(int age, String gender, int triggerCount) {
+	    if (gender.equals("M")) {
+	        if (age < 30 && triggerCount >= 5) {
+	            return true;
+	        } else if (age >= 30 && triggerCount >= 8) {
+	            return true;
+	        }
+	    } else if (gender.equals("F")) {
+	        if (age < 30 && triggerCount >= 7) {
+	            return true;
+	        } else if (age >= 30 && triggerCount >= 8) {
+	            return true;
+	        }
+	    }
+	    return false;
 	}
 }
