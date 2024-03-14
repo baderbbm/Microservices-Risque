@@ -60,7 +60,7 @@ class DiabetesRiskControllerTest {
         lenient().when(restTemplate.exchange(anyString(), eq(HttpMethod.GET), any(HttpEntity.class), eq(MedecinNoteDTO[].class)))
                 .thenReturn(notesResponse);
         when(diabetesRiskCalculationService.calculateDiabetesRisk(any(), any())).thenReturn("Borderline");
-        ResponseEntity<String> responseEntity = diabetesRiskController.getDiabetesRisk(1L);
+        ResponseEntity<String> responseEntity = diabetesRiskController.getDiabetesRisk(2L);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals("Borderline", responseEntity.getBody());
     }
@@ -69,7 +69,7 @@ class DiabetesRiskControllerTest {
     void testGetDiabetesRisk_InDanger() {
         PatientDTO patientDTO = new PatientDTO();
         patientDTO.setId(1L); 
-        MedecinNoteDTO[] medecinNotes = new MedecinNoteDTO[1]; 
+        MedecinNoteDTO[] medecinNotes = new MedecinNoteDTO[2]; 
         ResponseEntity<PatientDTO> patientResponse = ResponseEntity.ok(patientDTO);
         ResponseEntity<MedecinNoteDTO[]> notesResponse = ResponseEntity.ok(medecinNotes);
         lenient().when(restTemplate.exchange(anyString(), eq(HttpMethod.GET), any(HttpEntity.class), eq(PatientDTO.class)))
@@ -77,7 +77,7 @@ class DiabetesRiskControllerTest {
         lenient().when(restTemplate.exchange(anyString(), eq(HttpMethod.GET), any(HttpEntity.class), eq(MedecinNoteDTO[].class)))
                 .thenReturn(notesResponse);
         when(diabetesRiskCalculationService.calculateDiabetesRisk(any(), any())).thenReturn("In Danger");
-        ResponseEntity<String> responseEntity = diabetesRiskController.getDiabetesRisk(1L);
+        ResponseEntity<String> responseEntity = diabetesRiskController.getDiabetesRisk(3L);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals("In Danger", responseEntity.getBody());
     }
@@ -86,7 +86,7 @@ class DiabetesRiskControllerTest {
     void testGetDiabetesRisk_EarlyOnset() {
         PatientDTO patientDTO = new PatientDTO();
         patientDTO.setId(1L); 
-        MedecinNoteDTO[] medecinNotes = new MedecinNoteDTO[1]; 
+        MedecinNoteDTO[] medecinNotes = new MedecinNoteDTO[3]; 
         ResponseEntity<PatientDTO> patientResponse = ResponseEntity.ok(patientDTO);
         ResponseEntity<MedecinNoteDTO[]> notesResponse = ResponseEntity.ok(medecinNotes);
         lenient().when(restTemplate.exchange(anyString(), eq(HttpMethod.GET), any(HttpEntity.class), eq(PatientDTO.class)))
@@ -94,7 +94,7 @@ class DiabetesRiskControllerTest {
         lenient().when(restTemplate.exchange(anyString(), eq(HttpMethod.GET), any(HttpEntity.class), eq(MedecinNoteDTO[].class)))
                 .thenReturn(notesResponse);
         when(diabetesRiskCalculationService.calculateDiabetesRisk(any(), any())).thenReturn("Early Onset");
-        ResponseEntity<String> responseEntity = diabetesRiskController.getDiabetesRisk(1L);
+        ResponseEntity<String> responseEntity = diabetesRiskController.getDiabetesRisk(4L);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals("Early Onset", responseEntity.getBody());
     }
