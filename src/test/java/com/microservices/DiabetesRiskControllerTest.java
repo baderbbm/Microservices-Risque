@@ -51,7 +51,7 @@ class DiabetesRiskControllerTest {
     @Test
     void testGetDiabetesRisk_Borderline() {
         PatientDTO patientDTO = new PatientDTO();
-        patientDTO.setId(1L); 
+        patientDTO.setId(2L); 
         MedecinNoteDTO[] medecinNotes = new MedecinNoteDTO[1]; 
         ResponseEntity<PatientDTO> patientResponse = ResponseEntity.ok(patientDTO);
         ResponseEntity<MedecinNoteDTO[]> notesResponse = ResponseEntity.ok(medecinNotes);
@@ -68,7 +68,7 @@ class DiabetesRiskControllerTest {
     @Test
     void testGetDiabetesRisk_InDanger() {
         PatientDTO patientDTO = new PatientDTO();
-        patientDTO.setId(1L); 
+        patientDTO.setId(3L); 
         MedecinNoteDTO[] medecinNotes = new MedecinNoteDTO[2]; 
         ResponseEntity<PatientDTO> patientResponse = ResponseEntity.ok(patientDTO);
         ResponseEntity<MedecinNoteDTO[]> notesResponse = ResponseEntity.ok(medecinNotes);
@@ -85,7 +85,7 @@ class DiabetesRiskControllerTest {
     @Test
     void testGetDiabetesRisk_EarlyOnset() {
         PatientDTO patientDTO = new PatientDTO();
-        patientDTO.setId(1L); 
+        patientDTO.setId(4L); 
         MedecinNoteDTO[] medecinNotes = new MedecinNoteDTO[3]; 
         ResponseEntity<PatientDTO> patientResponse = ResponseEntity.ok(patientDTO);
         ResponseEntity<MedecinNoteDTO[]> notesResponse = ResponseEntity.ok(medecinNotes);
