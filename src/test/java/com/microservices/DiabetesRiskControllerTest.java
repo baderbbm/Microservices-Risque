@@ -24,37 +24,37 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 class DiabetesRiskControllerTest {
 
-    @Mock
-    private RestTemplate restTemplate;
+	@Mock
+	private RestTemplate restTemplate;
 
-    @Mock
-    private DiabetesRiskCalculationService diabetesRiskCalculationService;
+	@Mock
+	private DiabetesRiskCalculationService diabetesRiskCalculationService;
 
-    @Spy
-    @InjectMocks
-    private DiabetesRiskController diabetesRiskController;
+	@Spy
+	@InjectMocks
+	private DiabetesRiskController diabetesRiskController;
 
-    @BeforeEach
-    void testBeforeEach() {
-        MockitoAnnotations.openMocks(this);
-        doReturn(restTemplate).when(diabetesRiskController).createRestTemplate();
-    }
-    
-    @Test
-    void testGetDiabetesRisk_None() {
-        PatientDTO patientDTO = new PatientDTO();
-        patientDTO.setId(1L);
-        MedecinNoteDTO[] medecinNotes = new MedecinNoteDTO[0];
-        when(restTemplate.exchange(eq("http://192.168.1.3:8081/patients/1"), eq(HttpMethod.GET), any(),
-                eq(PatientDTO.class))).thenReturn(ResponseEntity.ok(patientDTO));
-        when(restTemplate.exchange(eq("http://192.168.1.3:8081/medecin/notes/1"), eq(HttpMethod.GET), any(),
-                eq(MedecinNoteDTO[].class))).thenReturn(ResponseEntity.ok(medecinNotes));
-        when(diabetesRiskCalculationService.calculateDiabetesRisk(any(), any())).thenReturn("None");
-        ResponseEntity<String> responseEntity = diabetesRiskController.getDiabetesRisk(1L);
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals("None", responseEntity.getBody());
-    }
-    /*
+	@BeforeEach
+	void testBeforeEach() {
+		MockitoAnnotations.openMocks(this);
+		doReturn(restTemplate).when(diabetesRiskController).createRestTemplate();
+	}
+
+	@Test
+	void testGetDiabetesRisk_None() {
+		PatientDTO patientDTO = new PatientDTO();
+		patientDTO.setId(1L);
+		MedecinNoteDTO[] medecinNotes = new MedecinNoteDTO[0];
+		when(restTemplate.exchange(eq("http://192.168.1.3:8081/patients/1"), eq(HttpMethod.GET), any(),
+				eq(PatientDTO.class))).thenReturn(ResponseEntity.ok(patientDTO));
+		when(restTemplate.exchange(eq("http://192.168.1.3:8081/medecin/notes/1"), eq(HttpMethod.GET), any(),
+				eq(MedecinNoteDTO[].class))).thenReturn(ResponseEntity.ok(medecinNotes));
+		when(diabetesRiskCalculationService.calculateDiabetesRisk(any(), any())).thenReturn("None");
+		ResponseEntity<String> responseEntity = diabetesRiskController.getDiabetesRisk(1L);
+		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+		assertEquals("None", responseEntity.getBody());
+	}
+
 	@Test
 	void testGetDiabetesRisk_Borderline() {
 		PatientDTO patientDTO = new PatientDTO();
@@ -99,5 +99,4 @@ class DiabetesRiskControllerTest {
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 		assertEquals("Early Onset", responseEntity.getBody());
 	}
-	*/
 }
