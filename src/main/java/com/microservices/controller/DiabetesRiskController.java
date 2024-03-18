@@ -21,13 +21,13 @@ public class DiabetesRiskController {
     @Autowired
     private DiabetesRiskCalculationService diabetesRiskCalculationService;
     
-    private HttpEntity<String> createHttpEntityWithAuth() {
+    public HttpEntity<String> createHttpEntityWithAuth() {
         HttpHeaders headers = new HttpHeaders();
         headers.setBasicAuth("diabete", "diabete");
         return new HttpEntity<>(headers);
     }
     
-    private RestTemplate createRestTemplate() {
+    public RestTemplate createRestTemplate() {
         return new RestTemplate();
     }
     
